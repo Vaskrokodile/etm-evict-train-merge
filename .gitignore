@@ -1,0 +1,17 @@
+# Model weights (too large for git)
+*.safetensors
+*.bin
+# Keep small checkpoints
+outputs/etm_v5b/checkpoint_step1000.pt
+
+# Data files (too large)
+data/math_train_cot.jsonl
+data/math_train_v5.jsonl
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# vLLM logs
+vllm_*.log

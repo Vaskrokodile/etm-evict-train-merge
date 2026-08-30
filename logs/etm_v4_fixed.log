@@ -1,0 +1,181 @@
+======================================================================
+ETM v4: BREATHING CYCLE + BOUNDED COSINE LOSS
+======================================================================
+  Model:       Qwen/Qwen2.5-Math-7B
+  LoRA:        DoRA r=24, alpha=48
+  Breathing:   every 999999 steps
+  Loss:        cosine similarity (bounded [-1,1])
+  Grad clip:   1.0
+  Max steps:   1000
+  Data:        /root/etm/data/math_train_cot.jsonl
+[ETM] loaded 7500 training samples
+
+--- Phase 0: Load base + LoRA ---
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:05,  2.00s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:04<00:04,  2.19s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:06<00:02,  2.24s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  1.97s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  2.05s/it]
+trainable params: 15,368,192 || all params: 7,630,984,704 || trainable%: 0.2014
+[VRAM] after load: allocated=7.81 GB, reserved=11.57 GB
+
+--- Phase 1: Cache activations (initial) ---
+/opt/conda/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py:632: UserWarning: torch.utils.checkpoint: the use_reentrant parameter should be passed explicitly. In version 2.5 we will raise an exception if use_reentrant is not passed. use_reentrant=False is recommended, but if you need to preserve the current default behavior, you can pass use_reentrant=True. Refer to docs for more details on the differences between the two variants.
+  return fn(*args, **kwargs)
+  cached 50/500 | VRAM 7.88 GB
+  cached 100/500 | VRAM 7.91 GB
+  cached 150/500 | VRAM 7.96 GB
+  cached 200/500 | VRAM 7.90 GB
+  cached 250/500 | VRAM 7.93 GB
+  cached 300/500 | VRAM 7.93 GB
+  cached 350/500 | VRAM 7.87 GB
+  cached 400/500 | VRAM 7.91 GB
+  cached 450/500 | VRAM 7.88 GB
+  cached 500/500 | VRAM 7.93 GB
+  [Cache] cached 500 samples in 304s
+  [Cache] 112 modules, 40.37 GB on CPU
+
+--- Phase 2: Extract LoRA params ---
+[ETM:Extract] 112 modules, 15.1M params
+
+--- Phase 3: EVICT base model ---
+[ETM:Evict] VRAM before: 7.88 GB
+[ETM:Evict] VRAM after: 7.88 GB
+[ETM:Evict] MODEL DELETED. Only LoRA params + cache remain.
+
+--- Phase 4: Breathing training (base evicted between breaths) ---
+
+[ETM:Train] BREATHING TRAINING — base model does not exist between breaths
+  lr=0.0001, batch_size=8, max_steps=1000
+  breath_interval=999999 (refresh cache every K steps)
+  loss=cosine_similarity (bounded [-1,1]), grad_clip=1.0
+  [Cache→GPU] VRAM: 43.82 GB
+  step    1 | loss +0.000000 | lr 5.00e-06 | VRAM 44.0229 GB | 3.0 steps/s | breaths 0
+  step   10 | loss -0.010466 | lr 5.00e-05 | VRAM 44.0229 GB | 8.0 steps/s | breaths 0
+  step   20 | loss -0.022631 | lr 1.00e-04 | VRAM 44.0229 GB | 8.9 steps/s | breaths 0
+  step   30 | loss -0.031437 | lr 1.00e-04 | VRAM 44.0229 GB | 9.3 steps/s | breaths 0
+  step   40 | loss -0.037743 | lr 9.99e-05 | VRAM 44.0229 GB | 9.5 steps/s | breaths 0
+  step   50 | loss -0.045836 | lr 9.98e-05 | VRAM 44.0229 GB | 9.6 steps/s | breaths 0
+  step   60 | loss -0.043461 | lr 9.96e-05 | VRAM 44.0229 GB | 9.7 steps/s | breaths 0
+  step   70 | loss -0.044355 | lr 9.94e-05 | VRAM 44.0229 GB | 9.7 steps/s | breaths 0
+  step   80 | loss -0.045030 | lr 9.91e-05 | VRAM 44.0229 GB | 9.8 steps/s | breaths 0
+  step   90 | loss -0.050009 | lr 9.87e-05 | VRAM 44.0229 GB | 9.8 steps/s | breaths 0
+  step  100 | loss -0.053325 | lr 9.84e-05 | VRAM 44.0229 GB | 9.8 steps/s | breaths 0
+  step  110 | loss -0.060550 | lr 9.79e-05 | VRAM 44.0229 GB | 9.8 steps/s | breaths 0
+  step  120 | loss -0.055040 | lr 9.75e-05 | VRAM 44.0229 GB | 9.9 steps/s | breaths 0
+  step  130 | loss -0.058696 | lr 9.69e-05 | VRAM 44.0229 GB | 9.9 steps/s | breaths 0
+  step  140 | loss -0.065292 | lr 9.63e-05 | VRAM 44.0229 GB | 9.9 steps/s | breaths 0
+  step  150 | loss -0.070258 | lr 9.57e-05 | VRAM 44.0229 GB | 9.9 steps/s | breaths 0
+  step  160 | loss -0.071332 | lr 9.50e-05 | VRAM 44.0229 GB | 9.9 steps/s | breaths 0
+  step  170 | loss -0.070285 | lr 9.43e-05 | VRAM 44.0229 GB | 9.9 steps/s | breaths 0
+  step  180 | loss -0.073511 | lr 9.36e-05 | VRAM 44.0229 GB | 9.9 steps/s | breaths 0
+  step  190 | loss -0.085508 | lr 9.28e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  200 | loss -0.087907 | lr 9.19e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  210 | loss -0.081672 | lr 9.10e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  220 | loss -0.080859 | lr 9.01e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  230 | loss -0.085252 | lr 8.91e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  240 | loss -0.084199 | lr 8.81e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  250 | loss -0.088814 | lr 8.70e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  260 | loss -0.087284 | lr 8.59e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  270 | loss -0.088888 | lr 8.48e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  280 | loss -0.096834 | lr 8.36e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  290 | loss -0.098535 | lr 8.24e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  300 | loss -0.098797 | lr 8.12e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  310 | loss -0.103933 | lr 7.99e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  320 | loss -0.090150 | lr 7.86e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  330 | loss -0.110596 | lr 7.73e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  340 | loss -0.100397 | lr 7.59e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  350 | loss -0.109623 | lr 7.45e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  360 | loss -0.109244 | lr 7.31e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  370 | loss -0.110384 | lr 7.17e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  380 | loss -0.109561 | lr 7.02e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  390 | loss -0.107193 | lr 6.88e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  400 | loss -0.112964 | lr 6.73e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  410 | loss -0.118660 | lr 6.58e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  420 | loss -0.112829 | lr 6.42e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  430 | loss -0.113847 | lr 6.27e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  440 | loss -0.117972 | lr 6.11e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  450 | loss -0.116353 | lr 5.96e-05 | VRAM 44.0229 GB | 10.0 steps/s | breaths 0
+  step  460 | loss -0.114460 | lr 5.80e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  470 | loss -0.118558 | lr 5.64e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  480 | loss -0.112837 | lr 5.48e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  490 | loss -0.126170 | lr 5.32e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  500 | loss -0.121940 | lr 5.16e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  510 | loss -0.116976 | lr 5.00e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  520 | loss -0.124599 | lr 4.84e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  530 | loss -0.124901 | lr 4.68e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  540 | loss -0.127290 | lr 4.52e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  550 | loss -0.126095 | lr 4.36e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  560 | loss -0.121829 | lr 4.20e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  570 | loss -0.128025 | lr 4.04e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  580 | loss -0.127709 | lr 3.89e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  590 | loss -0.125023 | lr 3.73e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  600 | loss -0.130097 | lr 3.58e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  610 | loss -0.134126 | lr 3.42e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  620 | loss -0.132920 | lr 3.27e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  630 | loss -0.121060 | lr 3.12e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  640 | loss -0.124592 | lr 2.98e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  650 | loss -0.131496 | lr 2.83e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  660 | loss -0.131933 | lr 2.69e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  670 | loss -0.135075 | lr 2.55e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  680 | loss -0.133432 | lr 2.41e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  690 | loss -0.127692 | lr 2.27e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  700 | loss -0.128016 | lr 2.14e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  710 | loss -0.134481 | lr 2.01e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  720 | loss -0.137095 | lr 1.88e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  730 | loss -0.133396 | lr 1.76e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  740 | loss -0.131542 | lr 1.64e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  750 | loss -0.129945 | lr 1.52e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  760 | loss -0.135599 | lr 1.41e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  770 | loss -0.135217 | lr 1.30e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  780 | loss -0.130760 | lr 1.19e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  790 | loss -0.135999 | lr 1.09e-05 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  800 | loss -0.123569 | lr 9.93e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  810 | loss -0.136671 | lr 8.99e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  820 | loss -0.131903 | lr 8.10e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  830 | loss -0.134880 | lr 7.24e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  840 | loss -0.136514 | lr 6.43e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  850 | loss -0.137065 | lr 5.67e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  860 | loss -0.133710 | lr 4.95e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  870 | loss -0.131659 | lr 4.28e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  880 | loss -0.136640 | lr 3.65e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  890 | loss -0.132094 | lr 3.08e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  900 | loss -0.128999 | lr 2.55e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  910 | loss -0.134495 | lr 2.07e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  920 | loss -0.140455 | lr 1.64e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  930 | loss -0.139799 | lr 1.25e-06 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  940 | loss -0.131655 | lr 9.22e-07 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  950 | loss -0.137707 | lr 6.41e-07 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  960 | loss -0.130707 | lr 4.10e-07 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  970 | loss -0.124849 | lr 2.31e-07 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  980 | loss -0.142633 | lr 1.03e-07 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step  990 | loss -0.141807 | lr 2.57e-08 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+  step 1000 | loss -0.141530 | lr 0.00e+00 | VRAM 44.0229 GB | 10.1 steps/s | breaths 0
+
+[ETM:Train] DONE: 1000 steps in 99.2s (10.1 steps/s)
+[ETM:Train] breaths taken: 0
+[ETM:Train] peak VRAM: 44.0834 GB
+[ETM:Train] final loss: -0.141530
+  [Cache→CPU] VRAM: 0.28 GB
+
+--- Phase 5: Merge ---
+[ETM:Merge] reloading base to inject trained params...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:04,  1.65s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:03<00:03,  1.90s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:05<00:01,  1.99s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:07<00:00,  1.79s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:07<00:00,  1.83s/it]
+[ETM:Merge] injected 112 modules
+[ETM:Merge] adapter saved to outputs/etm_v4_fixed
+/opt/conda/lib/python3.11/site-packages/peft/tuners/lora/bnb.py:377: UserWarning: Merge lora module to 4-bit linear may get different generations due to rounding errors.
+  warnings.warn(
+[ETM:Merge] merged model saved to outputs/etm_v4_fixed/merged
+
+======================================================================
+ETM v4 COMPLETE
+======================================================================
+  Trainable params:    15.1M
+  Breaths taken:       0
+  Breath interval:     every 999999 steps
+  Train time:          99.2s (1000 steps)
+  Train speed:         10.1 steps/s
+  VRAM (base loaded):  7.88 GB
+  VRAM (base evicted): 7.88 GB
+  VRAM (peak train):   44.08 GB
+  Final loss:          -0.141530
+  Merged model:        outputs/etm_v4_fixed/merged
+
+  Log: outputs/etm_v4_fixed/etm_log.json

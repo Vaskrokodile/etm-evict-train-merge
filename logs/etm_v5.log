@@ -1,0 +1,251 @@
+======================================================================
+ETM v5: MSE LOSS + HIGHER RANK + MORE DATA + MORE STEPS
+======================================================================
+  Model:       Qwen/Qwen2.5-Math-7B
+  LoRA:        r=64, alpha=128 (regular, no DoRA)
+  Loss:        MSE (||u + η*grad_h||²)
+  Steps:       8000
+  Data:        /root/etm/data/math_train_v5.jsonl
+  Cache:       500 samples × 64 tokens
+  No breathing (gradient cached once, base evicted)
+[ETM] loaded 3993 training samples
+
+--- Phase 0: Load base + LoRA ---
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:05,  1.99s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:04<00:04,  2.17s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:06<00:02,  2.22s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  1.95s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  2.03s/it]
+trainable params: 40,370,176 || all params: 7,655,986,688 || trainable%: 0.5273
+  VRAM after load: 7.90 GB
+
+--- Phase 1: Cache activations + calibrate η ---
+/opt/conda/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py:632: UserWarning: torch.utils.checkpoint: the use_reentrant parameter should be passed explicitly. In version 2.5 we will raise an exception if use_reentrant is not passed. use_reentrant=False is recommended, but if you need to preserve the current default behavior, you can pass use_reentrant=True. Refer to docs for more details on the differences between the two variants.
+  return fn(*args, **kwargs)
+  cached 200/500 | VRAM 8.17 GB | 112s
+  cached 400/500 | VRAM 8.24 GB | 225s
+
+  [Cache] DONE: 500 samples cached in 280.8s
+  [Cache] modules: 112
+  [Cache] median ||x||: 215.5081
+  [Cache] median ||grad_h||: 0.005139
+  [Cache] calibrated η: 4193.4374 (target ||u|| = 21.5508)
+  [Cache] CPU memory: 66.1 GB
+
+--- Phase 2: Extract LoRA params ---
+  [Extract] 112 LoRA modules extracted
+
+--- Phase 3: EVICT base model ---
+  [Evict] VRAM: 8.08 GB → 8.08 GB
+--- Phase 3.5: Move cache to GPU ---
+  [Cache→GPU] 66.1 GB moved, VRAM: 69.62 GB
+
+--- Phase 4: MSE training (base evicted) ---
+
+[ETM:Train] MSE TRAINING — base model does not exist
+  lr=0.0001, batch_size=16, max_steps=8000
+  loss=MSE (||u + η*grad_h||²), η=4193.4374, grad_clip=1.0
+  cached samples: 500, modules: 112
+  step     1 | loss 0.213817 | cos +0.0000 | ||u|| 0.000000 | ||g|| 0.000080 | lr 5.00e-07 | 3.0 steps/s | VRAM 70.16 GB
+  step    50 | loss 0.105344 | cos -0.0133 | ||u|| 0.001549 | ||g|| 0.000064 | lr 2.50e-05 | 7.6 steps/s | VRAM 70.16 GB
+  step   100 | loss 0.124331 | cos -0.0173 | ||u|| 0.006970 | ||g|| 0.000059 | lr 5.00e-05 | 7.9 steps/s | VRAM 70.16 GB
+  step   150 | loss 0.112789 | cos -0.0191 | ||u|| 0.008895 | ||g|| 0.000067 | lr 7.50e-05 | 8.1 steps/s | VRAM 70.16 GB
+  step   200 | loss 0.104459 | cos -0.0192 | ||u|| 0.009691 | ||g|| 0.000036 | lr 1.00e-04 | 8.1 steps/s | VRAM 70.16 GB
+  step   250 | loss 0.113172 | cos -0.0224 | ||u|| 0.013762 | ||g|| 0.000044 | lr 1.00e-04 | 8.1 steps/s | VRAM 70.16 GB
+  step   300 | loss 0.121964 | cos -0.0255 | ||u|| 0.016927 | ||g|| 0.000047 | lr 1.00e-04 | 8.2 steps/s | VRAM 70.16 GB
+  step   350 | loss 0.124169 | cos -0.0270 | ||u|| 0.020481 | ||g|| 0.000052 | lr 9.99e-05 | 8.2 steps/s | VRAM 70.16 GB
+  step   400 | loss 0.103009 | cos -0.0264 | ||u|| 0.021553 | ||g|| 0.000066 | lr 9.98e-05 | 8.2 steps/s | VRAM 70.16 GB
+  step   450 | loss 0.107535 | cos -0.0289 | ||u|| 0.022585 | ||g|| 0.000068 | lr 9.97e-05 | 8.2 steps/s | VRAM 70.16 GB
+  step   500 | loss 0.111996 | cos -0.0308 | ||u|| 0.026057 | ||g|| 0.000068 | lr 9.96e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step   550 | loss 0.108594 | cos -0.0313 | ||u|| 0.024387 | ||g|| 0.000037 | lr 9.95e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step   600 | loss 0.111032 | cos -0.0335 | ||u|| 0.028087 | ||g|| 0.000072 | lr 9.94e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step   650 | loss 0.111933 | cos -0.0326 | ||u|| 0.028822 | ||g|| 0.000057 | lr 9.92e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step   700 | loss 0.116669 | cos -0.0339 | ||u|| 0.031703 | ||g|| 0.000075 | lr 9.90e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step   750 | loss 0.108141 | cos -0.0339 | ||u|| 0.034859 | ||g|| 0.000094 | lr 9.88e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step   800 | loss 0.106229 | cos -0.0358 | ||u|| 0.031808 | ||g|| 0.000049 | lr 9.85e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step   850 | loss 0.113681 | cos -0.0367 | ||u|| 0.032227 | ||g|| 0.000044 | lr 9.83e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step   900 | loss 0.104151 | cos -0.0363 | ||u|| 0.033095 | ||g|| 0.000051 | lr 9.80e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step   950 | loss 0.126305 | cos -0.0378 | ||u|| 0.035417 | ||g|| 0.000050 | lr 9.77e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1000 | loss 0.116156 | cos -0.0375 | ||u|| 0.034026 | ||g|| 0.000039 | lr 9.74e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1050 | loss 0.118223 | cos -0.0381 | ||u|| 0.036384 | ||g|| 0.000078 | lr 9.71e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1100 | loss 0.108950 | cos -0.0372 | ||u|| 0.035527 | ||g|| 0.000045 | lr 9.68e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1150 | loss 0.120124 | cos -0.0391 | ||u|| 0.038224 | ||g|| 0.000055 | lr 9.64e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1200 | loss 0.114424 | cos -0.0390 | ||u|| 0.036526 | ||g|| 0.000046 | lr 9.60e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1250 | loss 0.111971 | cos -0.0384 | ||u|| 0.042108 | ||g|| 0.000064 | lr 9.56e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1300 | loss 0.118536 | cos -0.0399 | ||u|| 0.042148 | ||g|| 0.000066 | lr 9.52e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1350 | loss 0.112590 | cos -0.0397 | ||u|| 0.037515 | ||g|| 0.000051 | lr 9.47e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1400 | loss 0.105410 | cos -0.0390 | ||u|| 0.038202 | ||g|| 0.000050 | lr 9.43e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1450 | loss 0.124896 | cos -0.0418 | ||u|| 0.049014 | ||g|| 0.000109 | lr 9.38e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1500 | loss 0.113942 | cos -0.0405 | ||u|| 0.045473 | ||g|| 0.000062 | lr 9.33e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  1550 | loss 0.115371 | cos -0.0408 | ||u|| 0.041275 | ||g|| 0.000049 | lr 9.28e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  1600 | loss 0.121862 | cos -0.0419 | ||u|| 0.043415 | ||g|| 0.000047 | lr 9.23e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  1650 | loss 0.125417 | cos -0.0419 | ||u|| 0.042129 | ||g|| 0.000069 | lr 9.17e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1700 | loss 0.128138 | cos -0.0415 | ||u|| 0.047029 | ||g|| 0.000060 | lr 9.11e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1750 | loss 0.093223 | cos -0.0383 | ||u|| 0.041884 | ||g|| 0.000056 | lr 9.06e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1800 | loss 0.113479 | cos -0.0416 | ||u|| 0.046884 | ||g|| 0.000076 | lr 9.00e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1850 | loss 0.103505 | cos -0.0407 | ||u|| 0.043060 | ||g|| 0.000043 | lr 8.94e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1900 | loss 0.100536 | cos -0.0402 | ||u|| 0.042318 | ||g|| 0.000040 | lr 8.87e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  1950 | loss 0.104306 | cos -0.0413 | ||u|| 0.042967 | ||g|| 0.000059 | lr 8.81e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  2000 | loss 0.107501 | cos -0.0417 | ||u|| 0.042132 | ||g|| 0.000042 | lr 8.74e-05 | 8.5 steps/s | VRAM 70.16 GB
+  [Checkpoint] saved to outputs/etm_v5/checkpoint_step2000.pt
+  step  2050 | loss 0.120759 | cos -0.0441 | ||u|| 0.044567 | ||g|| 0.000067 | lr 8.68e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  2100 | loss 0.103298 | cos -0.0415 | ||u|| 0.042870 | ||g|| 0.000042 | lr 8.61e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  2150 | loss 0.103755 | cos -0.0423 | ||u|| 0.044574 | ||g|| 0.000059 | lr 8.54e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  2200 | loss 0.128669 | cos -0.0446 | ||u|| 0.045205 | ||g|| 0.000066 | lr 8.46e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  2250 | loss 0.116486 | cos -0.0443 | ||u|| 0.049319 | ||g|| 0.000063 | lr 8.39e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  2300 | loss 0.115997 | cos -0.0427 | ||u|| 0.049683 | ||g|| 0.000057 | lr 8.32e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  2350 | loss 0.109973 | cos -0.0426 | ||u|| 0.046155 | ||g|| 0.000054 | lr 8.24e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  2400 | loss 0.111129 | cos -0.0424 | ||u|| 0.047810 | ||g|| 0.000051 | lr 8.16e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  2450 | loss 0.114062 | cos -0.0434 | ||u|| 0.051627 | ||g|| 0.000039 | lr 8.08e-05 | 8.5 steps/s | VRAM 70.16 GB
+  step  2500 | loss 0.108739 | cos -0.0426 | ||u|| 0.047839 | ||g|| 0.000063 | lr 8.00e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  2550 | loss 0.103375 | cos -0.0415 | ||u|| 0.048959 | ||g|| 0.000060 | lr 7.92e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  2600 | loss 0.121294 | cos -0.0453 | ||u|| 0.046675 | ||g|| 0.000051 | lr 7.84e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  2650 | loss 0.093778 | cos -0.0416 | ||u|| 0.042797 | ||g|| 0.000044 | lr 7.76e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  2700 | loss 0.118565 | cos -0.0458 | ||u|| 0.048503 | ||g|| 0.000078 | lr 7.67e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  2750 | loss 0.114901 | cos -0.0436 | ||u|| 0.052675 | ||g|| 0.000042 | lr 7.59e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  2800 | loss 0.118055 | cos -0.0455 | ||u|| 0.057474 | ||g|| 0.000102 | lr 7.50e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  2850 | loss 0.107825 | cos -0.0441 | ||u|| 0.046666 | ||g|| 0.000055 | lr 7.41e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  2900 | loss 0.104142 | cos -0.0442 | ||u|| 0.045798 | ||g|| 0.000055 | lr 7.32e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  2950 | loss 0.119400 | cos -0.0451 | ||u|| 0.048442 | ||g|| 0.000051 | lr 7.23e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3000 | loss 0.093128 | cos -0.0420 | ||u|| 0.050987 | ||g|| 0.000059 | lr 7.14e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3050 | loss 0.110679 | cos -0.0450 | ||u|| 0.051538 | ||g|| 0.000062 | lr 7.05e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3100 | loss 0.104201 | cos -0.0444 | ||u|| 0.047829 | ||g|| 0.000058 | lr 6.96e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3150 | loss 0.107805 | cos -0.0446 | ||u|| 0.048659 | ||g|| 0.000059 | lr 6.87e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3200 | loss 0.118805 | cos -0.0455 | ||u|| 0.049369 | ||g|| 0.000066 | lr 6.77e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3250 | loss 0.122370 | cos -0.0465 | ||u|| 0.054610 | ||g|| 0.000089 | lr 6.68e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3300 | loss 0.109926 | cos -0.0452 | ||u|| 0.047909 | ||g|| 0.000043 | lr 6.58e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3350 | loss 0.119967 | cos -0.0459 | ||u|| 0.054038 | ||g|| 0.000055 | lr 6.49e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3400 | loss 0.110838 | cos -0.0444 | ||u|| 0.047345 | ||g|| 0.000042 | lr 6.39e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3450 | loss 0.102971 | cos -0.0428 | ||u|| 0.052645 | ||g|| 0.000041 | lr 6.29e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3500 | loss 0.103972 | cos -0.0429 | ||u|| 0.051232 | ||g|| 0.000049 | lr 6.20e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3550 | loss 0.116130 | cos -0.0462 | ||u|| 0.047716 | ||g|| 0.000060 | lr 6.10e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3600 | loss 0.117750 | cos -0.0446 | ||u|| 0.051980 | ||g|| 0.000059 | lr 6.00e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3650 | loss 0.126348 | cos -0.0467 | ||u|| 0.053331 | ||g|| 0.000042 | lr 5.90e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3700 | loss 0.107548 | cos -0.0440 | ||u|| 0.057885 | ||g|| 0.000046 | lr 5.80e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3750 | loss 0.112704 | cos -0.0451 | ||u|| 0.049317 | ||g|| 0.000054 | lr 5.70e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3800 | loss 0.116320 | cos -0.0456 | ||u|| 0.058219 | ||g|| 0.000072 | lr 5.60e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3850 | loss 0.121815 | cos -0.0460 | ||u|| 0.049905 | ||g|| 0.000043 | lr 5.50e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3900 | loss 0.122984 | cos -0.0460 | ||u|| 0.052790 | ||g|| 0.000061 | lr 5.40e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  3950 | loss 0.111623 | cos -0.0450 | ||u|| 0.052382 | ||g|| 0.000048 | lr 5.30e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  4000 | loss 0.118776 | cos -0.0452 | ||u|| 0.056718 | ||g|| 0.000063 | lr 5.20e-05 | 8.4 steps/s | VRAM 70.16 GB
+  [Checkpoint] saved to outputs/etm_v5/checkpoint_step4000.pt
+  step  4050 | loss 0.113021 | cos -0.0447 | ||u|| 0.053235 | ||g|| 0.000031 | lr 5.10e-05 | 8.4 steps/s | VRAM 70.16 GB
+  step  4100 | loss 0.112716 | cos -0.0450 | ||u|| 0.051752 | ||g|| 0.000059 | lr 5.00e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4150 | loss 0.113954 | cos -0.0452 | ||u|| 0.052044 | ||g|| 0.000037 | lr 4.90e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4200 | loss 0.124327 | cos -0.0447 | ||u|| 0.050201 | ||g|| 0.000048 | lr 4.80e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4250 | loss 0.111572 | cos -0.0458 | ||u|| 0.054715 | ||g|| 0.000046 | lr 4.70e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4300 | loss 0.112457 | cos -0.0451 | ||u|| 0.051577 | ||g|| 0.000038 | lr 4.60e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4350 | loss 0.118352 | cos -0.0469 | ||u|| 0.052453 | ||g|| 0.000052 | lr 4.50e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4400 | loss 0.104189 | cos -0.0444 | ||u|| 0.053767 | ||g|| 0.000064 | lr 4.40e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4450 | loss 0.112029 | cos -0.0459 | ||u|| 0.055570 | ||g|| 0.000074 | lr 4.30e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4500 | loss 0.119724 | cos -0.0478 | ||u|| 0.059134 | ||g|| 0.000069 | lr 4.20e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4550 | loss 0.116998 | cos -0.0454 | ||u|| 0.053368 | ||g|| 0.000062 | lr 4.10e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4600 | loss 0.113169 | cos -0.0456 | ||u|| 0.052608 | ||g|| 0.000047 | lr 4.00e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4650 | loss 0.124628 | cos -0.0464 | ||u|| 0.057821 | ||g|| 0.000087 | lr 3.90e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4700 | loss 0.104275 | cos -0.0431 | ||u|| 0.051634 | ||g|| 0.000042 | lr 3.80e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4750 | loss 0.121614 | cos -0.0467 | ||u|| 0.049673 | ||g|| 0.000044 | lr 3.71e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4800 | loss 0.118407 | cos -0.0459 | ||u|| 0.059754 | ||g|| 0.000084 | lr 3.61e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4850 | loss 0.103933 | cos -0.0442 | ||u|| 0.054086 | ||g|| 0.000048 | lr 3.51e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4900 | loss 0.097228 | cos -0.0438 | ||u|| 0.047986 | ||g|| 0.000042 | lr 3.42e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  4950 | loss 0.114858 | cos -0.0462 | ||u|| 0.055885 | ||g|| 0.000070 | lr 3.32e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5000 | loss 0.108634 | cos -0.0446 | ||u|| 0.053954 | ||g|| 0.000048 | lr 3.23e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5050 | loss 0.107344 | cos -0.0450 | ||u|| 0.050077 | ||g|| 0.000043 | lr 3.13e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5100 | loss 0.114970 | cos -0.0462 | ||u|| 0.055259 | ||g|| 0.000085 | lr 3.04e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5150 | loss 0.110921 | cos -0.0464 | ||u|| 0.052210 | ||g|| 0.000054 | lr 2.95e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5200 | loss 0.108308 | cos -0.0456 | ||u|| 0.050045 | ||g|| 0.000046 | lr 2.86e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5250 | loss 0.105706 | cos -0.0448 | ||u|| 0.053344 | ||g|| 0.000048 | lr 2.77e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5300 | loss 0.120631 | cos -0.0483 | ||u|| 0.054282 | ||g|| 0.000072 | lr 2.68e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5350 | loss 0.121578 | cos -0.0468 | ||u|| 0.060237 | ||g|| 0.000080 | lr 2.59e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5400 | loss 0.117118 | cos -0.0449 | ||u|| 0.054434 | ||g|| 0.000068 | lr 2.50e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5450 | loss 0.103882 | cos -0.0443 | ||u|| 0.051926 | ||g|| 0.000049 | lr 2.41e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5500 | loss 0.120356 | cos -0.0485 | ||u|| 0.051405 | ||g|| 0.000039 | lr 2.33e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5550 | loss 0.120161 | cos -0.0480 | ||u|| 0.054558 | ||g|| 0.000076 | lr 2.24e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5600 | loss 0.102413 | cos -0.0442 | ||u|| 0.051050 | ||g|| 0.000049 | lr 2.16e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5650 | loss 0.109368 | cos -0.0464 | ||u|| 0.057996 | ||g|| 0.000075 | lr 2.08e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5700 | loss 0.118788 | cos -0.0476 | ||u|| 0.053833 | ||g|| 0.000042 | lr 2.00e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5750 | loss 0.107530 | cos -0.0451 | ||u|| 0.052477 | ||g|| 0.000049 | lr 1.92e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5800 | loss 0.116033 | cos -0.0468 | ||u|| 0.057287 | ||g|| 0.000063 | lr 1.84e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5850 | loss 0.102725 | cos -0.0445 | ||u|| 0.048375 | ||g|| 0.000037 | lr 1.76e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5900 | loss 0.112425 | cos -0.0467 | ||u|| 0.052053 | ||g|| 0.000060 | lr 1.68e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  5950 | loss 0.119433 | cos -0.0480 | ||u|| 0.054748 | ||g|| 0.000060 | lr 1.61e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  6000 | loss 0.115733 | cos -0.0468 | ||u|| 0.050119 | ||g|| 0.000040 | lr 1.54e-05 | 8.3 steps/s | VRAM 70.16 GB
+  [Checkpoint] saved to outputs/etm_v5/checkpoint_step6000.pt
+  step  6050 | loss 0.107933 | cos -0.0465 | ||u|| 0.048431 | ||g|| 0.000035 | lr 1.46e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  6100 | loss 0.104176 | cos -0.0462 | ||u|| 0.054515 | ||g|| 0.000050 | lr 1.39e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  6150 | loss 0.118660 | cos -0.0476 | ||u|| 0.056239 | ||g|| 0.000050 | lr 1.32e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  6200 | loss 0.101294 | cos -0.0442 | ||u|| 0.053402 | ||g|| 0.000064 | lr 1.26e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  6250 | loss 0.109399 | cos -0.0472 | ||u|| 0.052188 | ||g|| 0.000035 | lr 1.19e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  6300 | loss 0.116760 | cos -0.0480 | ||u|| 0.052817 | ||g|| 0.000053 | lr 1.13e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  6350 | loss 0.100492 | cos -0.0452 | ||u|| 0.057761 | ||g|| 0.000060 | lr 1.06e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  6400 | loss 0.104623 | cos -0.0460 | ||u|| 0.050818 | ||g|| 0.000041 | lr 1.00e-05 | 8.3 steps/s | VRAM 70.16 GB
+  step  6450 | loss 0.113041 | cos -0.0463 | ||u|| 0.055544 | ||g|| 0.000042 | lr 9.43e-06 | 8.3 steps/s | VRAM 70.16 GB
+  step  6500 | loss 0.120555 | cos -0.0479 | ||u|| 0.055149 | ||g|| 0.000059 | lr 8.85e-06 | 8.3 steps/s | VRAM 70.16 GB
+  step  6550 | loss 0.102203 | cos -0.0456 | ||u|| 0.051688 | ||g|| 0.000044 | lr 8.29e-06 | 8.3 steps/s | VRAM 70.16 GB
+  step  6600 | loss 0.128413 | cos -0.0503 | ||u|| 0.057772 | ||g|| 0.000053 | lr 7.74e-06 | 8.3 steps/s | VRAM 70.16 GB
+  step  6650 | loss 0.126951 | cos -0.0482 | ||u|| 0.062376 | ||g|| 0.000082 | lr 7.21e-06 | 8.3 steps/s | VRAM 70.16 GB
+  step  6700 | loss 0.116802 | cos -0.0469 | ||u|| 0.063551 | ||g|| 0.000059 | lr 6.70e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  6750 | loss 0.110473 | cos -0.0458 | ||u|| 0.051925 | ||g|| 0.000058 | lr 6.20e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  6800 | loss 0.119992 | cos -0.0486 | ||u|| 0.050796 | ||g|| 0.000034 | lr 5.73e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  6850 | loss 0.111086 | cos -0.0474 | ||u|| 0.053150 | ||g|| 0.000059 | lr 5.27e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  6900 | loss 0.105881 | cos -0.0466 | ||u|| 0.053821 | ||g|| 0.000041 | lr 4.83e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  6950 | loss 0.106587 | cos -0.0470 | ||u|| 0.056520 | ||g|| 0.000064 | lr 4.41e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  7000 | loss 0.114645 | cos -0.0465 | ||u|| 0.051553 | ||g|| 0.000046 | lr 4.00e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  7050 | loss 0.115540 | cos -0.0473 | ||u|| 0.052734 | ||g|| 0.000061 | lr 3.62e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  7100 | loss 0.108138 | cos -0.0466 | ||u|| 0.053586 | ||g|| 0.000054 | lr 3.25e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  7150 | loss 0.114338 | cos -0.0475 | ||u|| 0.059252 | ||g|| 0.000080 | lr 2.90e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  7200 | loss 0.111339 | cos -0.0484 | ||u|| 0.057210 | ||g|| 0.000054 | lr 2.57e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  7250 | loss 0.109232 | cos -0.0471 | ||u|| 0.060531 | ||g|| 0.000087 | lr 2.26e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  7300 | loss 0.105650 | cos -0.0452 | ||u|| 0.055833 | ||g|| 0.000064 | lr 1.97e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  7350 | loss 0.116170 | cos -0.0475 | ||u|| 0.055591 | ||g|| 0.000073 | lr 1.70e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  7400 | loss 0.134071 | cos -0.0498 | ||u|| 0.054777 | ||g|| 0.000071 | lr 1.45e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  7450 | loss 0.114373 | cos -0.0475 | ||u|| 0.055138 | ||g|| 0.000054 | lr 1.22e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  7500 | loss 0.099202 | cos -0.0453 | ||u|| 0.057789 | ||g|| 0.000061 | lr 1.01e-06 | 8.4 steps/s | VRAM 70.16 GB
+  step  7550 | loss 0.100083 | cos -0.0455 | ||u|| 0.054544 | ||g|| 0.000044 | lr 8.19e-07 | 8.4 steps/s | VRAM 70.16 GB
+  step  7600 | loss 0.121985 | cos -0.0480 | ||u|| 0.057788 | ||g|| 0.000078 | lr 6.47e-07 | 8.4 steps/s | VRAM 70.16 GB
+  step  7650 | loss 0.111231 | cos -0.0464 | ||u|| 0.052099 | ||g|| 0.000036 | lr 4.96e-07 | 8.4 steps/s | VRAM 70.16 GB
+  step  7700 | loss 0.109219 | cos -0.0463 | ||u|| 0.061565 | ||g|| 0.000084 | lr 3.65e-07 | 8.4 steps/s | VRAM 70.16 GB
+  step  7750 | loss 0.103739 | cos -0.0459 | ||u|| 0.063231 | ||g|| 0.000074 | lr 2.53e-07 | 8.4 steps/s | VRAM 70.16 GB
+  step  7800 | loss 0.102715 | cos -0.0468 | ||u|| 0.052636 | ||g|| 0.000038 | lr 1.62e-07 | 8.4 steps/s | VRAM 70.16 GB
+  step  7850 | loss 0.110260 | cos -0.0475 | ||u|| 0.060678 | ||g|| 0.000077 | lr 9.12e-08 | 8.4 steps/s | VRAM 70.16 GB
+  step  7900 | loss 0.124516 | cos -0.0483 | ||u|| 0.056847 | ||g|| 0.000058 | lr 4.06e-08 | 8.4 steps/s | VRAM 70.16 GB
+  step  7950 | loss 0.109164 | cos -0.0468 | ||u|| 0.056195 | ||g|| 0.000062 | lr 1.01e-08 | 8.4 steps/s | VRAM 70.16 GB
+  step  8000 | loss 0.095180 | cos -0.0441 | ||u|| 0.057098 | ||g|| 0.000059 | lr 0.00e+00 | 8.4 steps/s | VRAM 70.16 GB
+  [Checkpoint] saved to outputs/etm_v5/checkpoint_step8000.pt
+
+[ETM:Train] DONE: 8000 steps in 956.6s (8.4 steps/s)
+[ETM:Train] peak VRAM: 70.3204 GB
+[ETM:Train] final loss: 0.100873
+[ETM:Train] final cosine sim: -0.0456
+[ETM:Train] final ||u||/||g|| ratio: 974.1487
+
+--- Phase 5: Merge (bf16) ---
+[ETM:Merge] loading base Qwen/Qwen2.5-Math-7B in bf16 (no quantization)...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:01,  1.87it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:01<00:01,  1.92it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:01<00:01,  1.17it/s]
+Traceback (most recent call last):
+  File "/root/etm/src/etm_v5.py", line 608, in <module>
+    run_etm(args)
+  File "/root/etm/src/etm_v5.py", line 548, in run_etm
+    merged_path = save_and_merge(lora_params, args.output_dir, args.rank, args.alpha)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/etm/src/etm_v5.py", line 438, in save_and_merge
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 604, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/transformers/modeling_utils.py", line 277, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/transformers/modeling_utils.py", line 5048, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/transformers/modeling_utils.py", line 5468, in _load_pretrained_model
+    _error_msgs, disk_offload_index = load_shard_file(args)
+                                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/transformers/modeling_utils.py", line 843, in load_shard_file
+    disk_offload_index = _load_state_dict_into_meta_model(
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/transformers/modeling_utils.py", line 748, in _load_state_dict_into_meta_model
+    param = param[...]
+            ~~~~~^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 130.00 MiB. GPU 0 has a total capacity of 79.15 GiB of which 54.62 MiB is free. Process 3536450 has 79.09 GiB memory in use. Of the allocated memory 71.68 GiB is allocated by PyTorch, and 6.91 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

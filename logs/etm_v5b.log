@@ -1,0 +1,94 @@
+======================================================================
+ETM v5b: GENTLE MSE + PERIODIC BREATHING
+======================================================================
+  LoRA: r=64, alpha=128 | η=gentle (1% of ||x||)
+  Steps: 3000 | Breath every 500
+[ETM] loaded 3993 samples
+
+--- Phase 0: Load base + LoRA ---
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:05,  1.98s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:04<00:04,  2.16s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:06<00:02,  2.21s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  1.94s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  2.02s/it]
+trainable params: 40,370,176 || all params: 7,655,986,688 || trainable%: 0.5273
+
+--- Phase 1: Cache ---
+/opt/conda/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py:632: UserWarning: torch.utils.checkpoint: the use_reentrant parameter should be passed explicitly. In version 2.5 we will raise an exception if use_reentrant is not passed. use_reentrant=False is recommended, but if you need to preserve the current default behavior, you can pass use_reentrant=True. Refer to docs for more details on the differences between the two variants.
+  return fn(*args, **kwargs)
+  cached 200/500 | VRAM 8.17 GB | 109s
+  cached 400/500 | VRAM 8.24 GB | 219s
+
+  [Cache] DONE: 500 samples in 274.2s
+  [Cache] median ||x||=215.5480, ||grad_h||=0.005147
+  [Cache] η=418.7765 (GENTLE: target ||u||=2.1555)
+  [Cache] CPU memory: 66.1 GB
+
+--- Phase 2: Extract ---
+  [Extract] 112 modules
+
+--- Phase 3: Evict ---
+  [Evict] VRAM: 8.08 → 8.08 GB
+
+--- Phase 3.5: Cache to GPU ---
+  [Cache→GPU] 66.1 GB, VRAM: 69.62 GB
+
+--- Phase 4: Train ---
+
+[ETM:Train] MSE + BREATHING
+  lr=0.0001, batch=16, steps=3000, breath every 500
+  η=418.7765, grad_clip=1.0
+  [Cache→GPU] 66.1 GB, VRAM: 69.62 GB
+  step     1 | loss 0.000488 | cos +0.0000 | ||u|| 0.000000 | ||g|| 0.000039 | lr 1.00e-06 | 2.6 steps/s | breaths 0
+  step    50 | loss 0.001189 | cos -0.0139 | ||u|| 0.001009 | ||g|| 0.000061 | lr 5.00e-05 | 7.9 steps/s | breaths 0
+  step   100 | loss 0.001265 | cos -0.0155 | ||u|| 0.001401 | ||g|| 0.000063 | lr 1.00e-04 | 8.3 steps/s | breaths 0
+  step   150 | loss 0.001218 | cos -0.0176 | ||u|| 0.001956 | ||g|| 0.000058 | lr 9.99e-05 | 8.4 steps/s | breaths 0
+  step   200 | loss 0.001163 | cos -0.0194 | ||u|| 0.002253 | ||g|| 0.000086 | lr 9.97e-05 | 8.5 steps/s | breaths 0
+  step   250 | loss 0.001105 | cos -0.0224 | ||u|| 0.002623 | ||g|| 0.000043 | lr 9.93e-05 | 8.5 steps/s | breaths 0
+  step   300 | loss 0.001176 | cos -0.0240 | ||u|| 0.002960 | ||g|| 0.000050 | lr 9.88e-05 | 8.5 steps/s | breaths 0
+  step   350 | loss 0.001285 | cos -0.0254 | ||u|| 0.003387 | ||g|| 0.000065 | lr 9.82e-05 | 8.6 steps/s | breaths 0
+  step   400 | loss 0.001269 | cos -0.0265 | ||u|| 0.003937 | ||g|| 0.000077 | lr 9.74e-05 | 8.6 steps/s | breaths 0
+  step   450 | loss 0.001146 | cos -0.0267 | ||u|| 0.004380 | ||g|| 0.000077 | lr 9.64e-05 | 8.7 steps/s | breaths 0
+  step   500 | loss 0.001095 | cos -0.0287 | ||u|| 0.003807 | ||g|| 0.000066 | lr 9.54e-05 | 8.7 steps/s | breaths 0
+
+[ETM:Train] === BREATH #1 at step 500 ===
+
+  ┌─ BREATH ─────────────────────────────
+  [Cache→CPU] VRAM: 0.72 GB
+  [Breath] reloading 4-bit base...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:05,  1.67s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:03<00:03,  1.90s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:05<00:01,  1.99s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:07<00:00,  1.77s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:07<00:00,  1.81s/it]
+trainable params: 40,370,176 || all params: 7,655,986,688 || trainable%: 0.5273
+  [Breath] refreshing cache...
+  [Cache] injected 112 modules
+  cached 200/500 | VRAM 8.71 GB | 108s
+  cached 400/500 | VRAM 8.79 GB | 218s
+
+  [Cache] DONE: 500 samples in 272.4s
+  [Cache] median ||x||=215.0820, ||grad_h||=0.004386
+  [Cache] η=490.4109 (GENTLE: target ||u||=2.1508)
+  [Cache] CPU memory: 66.1 GB
+  [Breath] evicting base...
+  [Evict] VRAM: 8.46 → 8.46 GB
+  [Cache→GPU] 66.1 GB, VRAM: 70.16 GB
+  └─ BREATH DONE ────────────────────────
+
+  step   550 | loss 0.001142 | cos -0.0074 | ||u|| 0.002258 | ||g|| 0.000057 | lr 9.42e-05 | 1.3 steps/s | breaths 1
+  step   600 | loss 0.001198 | cos -0.0149 | ||u|| 0.002053 | ||g|| 0.000034 | lr 9.28e-05 | 1.4 steps/s | breaths 1
+  step   650 | loss 0.001081 | cos -0.0179 | ||u|| 0.001921 | ||g|| 0.000035 | lr 9.14e-05 | 1.5 steps/s | breaths 1
+  step   700 | loss 0.000960 | cos -0.0190 | ||u|| 0.001907 | ||g|| 0.000043 | lr 8.98e-05 | 1.6 steps/s | breaths 1
+  step   750 | loss 0.001157 | cos -0.0217 | ||u|| 0.002340 | ||g|| 0.000042 | lr 8.81e-05 | 1.7 steps/s | breaths 1
+  step   800 | loss 0.001054 | cos -0.0222 | ||u|| 0.002341 | ||g|| 0.000040 | lr 8.63e-05 | 1.8 steps/s | breaths 1
+  step   850 | loss 0.001078 | cos -0.0234 | ||u|| 0.002474 | ||g|| 0.000036 | lr 8.44e-05 | 1.8 steps/s | breaths 1
+  step   900 | loss 0.001233 | cos -0.0264 | ||u|| 0.002992 | ||g|| 0.000032 | lr 8.24e-05 | 1.9 steps/s | breaths 1
+  step   950 | loss 0.001050 | cos -0.0247 | ||u|| 0.003031 | ||g|| 0.000033 | lr 8.03e-05 | 2.0 steps/s | breaths 1
+  step  1000 | loss 0.001056 | cos -0.0264 | ||u|| 0.002947 | ||g|| 0.000067 | lr 7.81e-05 | 2.1 steps/s | breaths 1
+  [Checkpoint] saved to outputs/etm_v5b/checkpoint_step1000.pt
+
+[ETM:Train] === BREATH #2 at step 1000 ===
+
+  ┌─ BREATH ─────────────────────────────
+  [Cache→CPU] VRAM: 0.72 GB
+  [Breath] reloading 4-bit base...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:05,  1.77s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:03<00:04,  2.01s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:06<00:02,  2.10s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:07<00:00,  1.86s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:07<00:00,  1.91s/it]
+trainable params: 40,370,176 || all params: 7,655,986,688 || trainable%: 0.5273
+  [Breath] refreshing cache...
+  [Cache] injected 112 modules
+  cached 200/500 | VRAM 8.71 GB | 111s
+  cached 400/500 | VRAM 8.79 GB | 223s

@@ -1,0 +1,8 @@
+`torch_dtype` is deprecated! Use `dtype` instead!
+[remerge] loading base Qwen/Qwen2.5-Math-7B in bf16 (no quantization)...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:01,  1.92it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:01<00:01,  1.92it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:01<00:00,  1.88it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.98it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.95it/s]
+[remerge] applying DoRA adapter from /root/etm/outputs/etm_v4_fixed...
+[remerge] merging adapter into base weights...
+[remerge] saving merged model to /root/etm/outputs/etm_v4_fixed/merged_bf16...
+[remerge] config dtype=bfloat16, no quantization_config. OK
+[remerge] DONE -> /root/etm/outputs/etm_v4_fixed/merged_bf16

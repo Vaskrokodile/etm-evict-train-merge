@@ -1,0 +1,16 @@
+{
+  "total": 3993,
+  "levels": {
+    "4": 1690,
+    "5": 2303
+  },
+  "subjects": {
+    "algebra": 833,
+    "counting_and_probability": 442,
+    "geometry": 598,
+    "intermediate_algebra": 769,
+    "number_theory": 500,
+    "prealgebra": 499,
+    "precalculus": 352
+  }
+}

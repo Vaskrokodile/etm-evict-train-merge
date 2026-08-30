@@ -1,0 +1,434 @@
+{
+  "model": "trained",
+  "n_problems": 30,
+  "samples": 1,
+  "temp": 0.8,
+  "pass1_accuracy": 0.0,
+  "pass1_correct": 0,
+  "maj_accuracy": 0.0,
+  "maj_correct": 0,
+  "results": [
+    {
+      "idx": 1,
+      "gold": 70,
+      "pass1_answer": 97,
+      "pass1_correct": false,
+      "maj_answer": 97,
+      "maj_correct": false,
+      "sample_answers": [
+        97
+      ],
+      "problem_type": [
+        "Number Theory"
+      ]
+    },
+    {
+      "idx": 2,
+      "gold": 588,
+      "pass1_answer": 100,
+      "pass1_correct": false,
+      "maj_answer": 100,
+      "maj_correct": false,
+      "sample_answers": [
+        100
+      ],
+      "problem_type": [
+        "Geometry"
+      ]
+    },
+    {
+      "idx": 3,
+      "gold": 16,
+      "pass1_answer": null,
+      "pass1_correct": false,
+      "maj_answer": null,
+      "maj_correct": false,
+      "sample_answers": [
+        null
+      ],
+      "problem_type": [
+        "Combinatorics"
+      ]
+    },
+    {
+      "idx": 4,
+      "gold": 117,
+      "pass1_answer": 24,
+      "pass1_correct": false,
+      "maj_answer": 24,
+      "maj_correct": false,
+      "sample_answers": [
+        24
+      ],
+      "problem_type": [
+        "Algebra"
+      ]
+    },
+    {
+      "idx": 5,
+      "gold": 279,
+      "pass1_answer": 1000,
+      "pass1_correct": false,
+      "maj_answer": 1000,
+      "maj_correct": false,
+      "sample_answers": [
+        1000
+      ],
+      "problem_type": [
+        "Combinatorics",
+        "Number Theory"
+      ]
+    },
+    {
+      "idx": 6,
+      "gold": 504,
+      "pass1_answer": 7,
+      "pass1_correct": false,
+      "maj_answer": 7,
+      "maj_correct": false,
+      "sample_answers": [
+        7
+      ],
+      "problem_type": [
+        "Geometry"
+      ]
+    },
+    {
+      "idx": 7,
+      "gold": 821,
+      "pass1_answer": 1,
+      "pass1_correct": false,
+      "maj_answer": 1,
+      "maj_correct": false,
+      "sample_answers": [
+        1
+      ],
+      "problem_type": [
+        "Combinatorics"
+      ]
+    },
+    {
+      "idx": 8,
+      "gold": 77,
+      "pass1_answer": 4,
+      "pass1_correct": false,
+      "maj_answer": 4,
+      "maj_correct": false,
+      "sample_answers": [
+        4
+      ],
+      "problem_type": [
+        "Algebra"
+      ]
+    },
+    {
+      "idx": 9,
+      "gold": 62,
+      "pass1_answer": 4,
+      "pass1_correct": false,
+      "maj_answer": 4,
+      "maj_correct": false,
+      "sample_answers": [
+        4
+      ],
+      "problem_type": [
+        "Algebra"
+      ]
+    },
+    {
+      "idx": 10,
+      "gold": 81,
+      "pass1_answer": 6,
+      "pass1_correct": false,
+      "maj_answer": 6,
+      "maj_correct": false,
+      "sample_answers": [
+        6
+      ],
+      "problem_type": [
+        "Combinatorics"
+      ]
+    },
+    {
+      "idx": 11,
+      "gold": 259,
+      "pass1_answer": 2,
+      "pass1_correct": false,
+      "maj_answer": 2,
+      "maj_correct": false,
+      "sample_answers": [
+        2
+      ],
+      "problem_type": [
+        "Algebra"
+      ]
+    },
+    {
+      "idx": 12,
+      "gold": 510,
+      "pass1_answer": 2,
+      "pass1_correct": false,
+      "maj_answer": 2,
+      "maj_correct": false,
+      "sample_answers": [
+        2
+      ],
+      "problem_type": [
+        "Algebra"
+      ]
+    },
+    {
+      "idx": 13,
+      "gold": 204,
+      "pass1_answer": 25,
+      "pass1_correct": false,
+      "maj_answer": 25,
+      "maj_correct": false,
+      "sample_answers": [
+        25
+      ],
+      "problem_type": [
+        "Combinatorics"
+      ]
+    },
+    {
+      "idx": 14,
+      "gold": 60,
+      "pass1_answer": null,
+      "pass1_correct": false,
+      "maj_answer": null,
+      "maj_correct": false,
+      "sample_answers": [
+        null
+      ],
+      "problem_type": [
+        "Geometry"
+      ]
+    },
+    {
+      "idx": 15,
+      "gold": 735,
+      "pass1_answer": 6,
+      "pass1_correct": false,
+      "maj_answer": 6,
+      "maj_correct": false,
+      "sample_answers": [
+        6
+      ],
+      "problem_type": [
+        "Number Theory"
+      ]
+    },
+    {
+      "idx": 16,
+      "gold": 468,
+      "pass1_answer": 30,
+      "pass1_correct": false,
+      "maj_answer": 30,
+      "maj_correct": false,
+      "sample_answers": [
+        30
+      ],
+      "problem_type": [
+        "Geometry"
+      ]
+    },
+    {
+      "idx": 17,
+      "gold": 49,
+      "pass1_answer": 3,
+      "pass1_correct": false,
+      "maj_answer": 3,
+      "maj_correct": false,
+      "sample_answers": [
+        3
+      ],
+      "problem_type": [
+        "Number Theory"
+      ]
+    },
+    {
+      "idx": 18,
+      "gold": 82,
+      "pass1_answer": 0,
+      "pass1_correct": false,
+      "maj_answer": 0,
+      "maj_correct": false,
+      "sample_answers": [
+        0
+      ],
+      "problem_type": [
+        "Combinatorics"
+      ]
+    },
+    {
+      "idx": 19,
+      "gold": 106,
+      "pass1_answer": 5,
+      "pass1_correct": false,
+      "maj_answer": 5,
+      "maj_correct": false,
+      "sample_answers": [
+        5
+      ],
+      "problem_type": [
+        "Algebra"
+      ]
+    },
+    {
+      "idx": 20,
+      "gold": 336,
+      "pass1_answer": 36,
+      "pass1_correct": false,
+      "maj_answer": 36,
+      "maj_correct": false,
+      "sample_answers": [
+        36
+      ],
+      "problem_type": [
+        "Geometry"
+      ]
+    },
+    {
+      "idx": 21,
+      "gold": 293,
+      "pass1_answer": null,
+      "pass1_correct": false,
+      "maj_answer": null,
+      "maj_correct": false,
+      "sample_answers": [
+        null
+      ],
+      "problem_type": [
+        "Algebra",
+        "Geometry"
+      ]
+    },
+    {
+      "idx": 22,
+      "gold": 237,
+      "pass1_answer": 1,
+      "pass1_correct": false,
+      "maj_answer": 1,
+      "maj_correct": false,
+      "sample_answers": [
+        1
+      ],
+      "problem_type": [
+        "Number Theory"
+      ]
+    },
+    {
+      "idx": 23,
+      "gold": 610,
+      "pass1_answer": null,
+      "pass1_correct": false,
+      "maj_answer": null,
+      "maj_correct": false,
+      "sample_answers": [
+        null
+      ],
+      "problem_type": [
+        "Combinatorics"
+      ]
+    },
+    {
+      "idx": 24,
+      "gold": 149,
+      "pass1_answer": 12,
+      "pass1_correct": false,
+      "maj_answer": 12,
+      "maj_correct": false,
+      "sample_answers": [
+        12
+      ],
+      "problem_type": [
+        "Algebra"
+      ]
+    },
+    {
+      "idx": 25,
+      "gold": 907,
+      "pass1_answer": 1,
+      "pass1_correct": false,
+      "maj_answer": 1,
+      "maj_correct": false,
+      "sample_answers": [
+        1
+      ],
+      "problem_type": [
+        "Combinatorics"
+      ]
+    },
+    {
+      "idx": 26,
+      "gold": 113,
+      "pass1_answer": 1,
+      "pass1_correct": false,
+      "maj_answer": 1,
+      "maj_correct": false,
+      "sample_answers": [
+        1
+      ],
+      "problem_type": [
+        "Combinatorics"
+      ]
+    },
+    {
+      "idx": 27,
+      "gold": 19,
+      "pass1_answer": 11,
+      "pass1_correct": false,
+      "maj_answer": 11,
+      "maj_correct": false,
+      "sample_answers": [
+        11
+      ],
+      "problem_type": [
+        "Geometry"
+      ]
+    },
+    {
+      "idx": 28,
+      "gold": 248,
+      "pass1_answer": 0,
+      "pass1_correct": false,
+      "maj_answer": 0,
+      "maj_correct": false,
+      "sample_answers": [
+        0
+      ],
+      "problem_type": [
+        "Number Theory"
+      ]
+    },
+    {
+      "idx": 29,
+      "gold": 104,
+      "pass1_answer": null,
+      "pass1_correct": false,
+      "maj_answer": null,
+      "maj_correct": false,
+      "sample_answers": [
+        null
+      ],
+      "problem_type": [
+        "Geometry"
+      ]
+    },
+    {
+      "idx": 30,
+      "gold": 240,
+      "pass1_answer": null,
+      "pass1_correct": false,
+      "maj_answer": null,
+      "maj_correct": false,
+      "sample_answers": [
+        null
+      ],
+      "problem_type": [
+        "Algebra"
+      ]
+    }
+  ]
+}
